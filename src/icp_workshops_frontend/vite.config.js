@@ -1,8 +1,9 @@
 import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
-import environment from 'vite-plugin-environment';
 import vue from '@vitejs/plugin-vue';
+import environment from 'vite-plugin-environment';
 import dotenv from 'dotenv';
+import tailwindcss from '@tailwindcss/vite';
 
 dotenv.config({ path: '../../.env' });
 
@@ -29,6 +30,7 @@ export default defineConfig({
     vue(),
     environment('all', { prefix: 'CANISTER_' }),
     environment('all', { prefix: 'DFX_' }),
+    tailwindcss(),
   ],
   resolve: {
     alias: [
@@ -36,5 +38,5 @@ export default defineConfig({
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
     ],
     dedupe: ['@dfinity/agent'],
-  }
+  },
 });
