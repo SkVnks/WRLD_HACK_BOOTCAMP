@@ -11,23 +11,20 @@ async fn translate(text: String) -> String {
             url: "https://api-inference.huggingface.co/models/google-t5/t5-base".to_string(),
             max_response_bytes: None,
             method: HttpMethod::POST,
-          headers: vec![
-    HttpHeader {
-        name: "Authorization".to_string(),
-        value: format!("Bearer {}", token),
-    },
-    HttpHeader {
-        name: "Content-Type".to_string(),
-        value: "application/json".to_string(),
-    },
-],
-    body: Some(format!(r#"{{"inputs": "{}"}}"#, text).into()),
+            headers: vec![
+                HttpHeader {
+                    name: "Authorization".to_string(),
+                    value: format!("Bearer {}", token),
+                },
+                 HttpHeader {
+                    name: "Content-Type".to_string(),
+                    value: "application/json".to_string(),
+                }
+            ],
+            body: Some(format!(r#"{{"inputs": "{}"}}"#, text).into()),
             transform: None,
-        }, (20_849_972_000usize) + text.len()* 5_200).try_into().unwrap()
-    
+        },
     ).await.unwrap();
 
-    let body = String::from_utf8(res.body).unwrap();
-    ic_cdk::println!("{:?}", body);
-    format!("Hello, {}!", text)
+    String::from_utf8(res.body).unwrap()
 }
